@@ -148,7 +148,10 @@ class Setup:
 
     def logging(self, on: bool = False) -> None:
         level = logging.DEBUG if on else logging.ERROR
-        logging.basicConfig(level=level)
+        logging.basicConfig(
+            level=level,
+            format='%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s',
+        )
 
     def args(self) -> argparse.Namespace:
         parser = argparse.ArgumentParser(
@@ -613,11 +616,7 @@ class Process:
         return process.returncode
 
 
-def parse_and_exit(
-    args: argparse.Namespace,
-    browsers: BrowserCollection,
-    menu: MenuInterface,
-) -> None:
+def parse_and_exit(args: argparse.Namespace, browsers: BrowserCollection) -> None:
     if args.test:
         logger.debug('testing mode')
         sys.exit(0)
@@ -663,22 +662,27 @@ def main() -> int:
     menu = setup.menu(args.menu)
 
     try:
-        browsers = BrowserCollection()
-        browsers.load_defaults().load_json_files(HOME)
-        parse_and_exit(args, browsers, menu)
+        collection = BrowserCollection()
+        collection.load_defaults().load_json_files(HOME)
+        parse_and_exit(args, collection)
 
         browser = (
-            browsers.get(args.browser) if args.browser else browsers.select(menu, browsers.found())
+            collection.get(args.browser)
+            if args.browser
+            else collection.select(menu, collection.found())
         )
-        browser.profiles.load()
 
+        browser.profiles.load()
         profile = browser.profiles.select(menu)
+
         if args.url:
             return profile.open(args.url)
         return profile.launch()
+
     except EXCEPTIONS as err:
         menu.prompt(items=[err], prompt='PyBrowserErr>')
         log_error_and_exit(str(err))
+
     return 1
 
 
