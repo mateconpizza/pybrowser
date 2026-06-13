@@ -15,31 +15,43 @@
 
 ### A Python Script for Effortless Browser Profile Management
 
-### ⭐ About
+### About
 
 This Python script simplifies launching browser profiles by automatically retrieving profile information from each browser's config directory. It presents these profiles as launch options, saving time and enhancing workflow, especially for users who frequently switch between multiple profiles.
 
-### ⚡️ Requirements
+### Requirements
 
 - [dmenu](https://tools.suckless.org/dmenu/)
 - [rofi](https://github.com/davatorium/rofi) _(Optional)_
 - [fzf](https://github.com/junegunn/fzf) _(Optional)_
 
-### 📦 Installation
+### Browsers
 
-#### Using `pipx` _(recommended)_
+- [Firefox](https://www.mozilla.org/firefox/download/thanks/)
+- [LibreWolf](https://librewolf.net/)
+- [Chromium](https://www.chromium.org/getting-involved/download-chromium/)
+- Brave
+- And Others...
+
+### Installation
+
+#### Using [`uv`](https://docs.astral.sh/uv)
+
+```bash
+$ uv tool install pybrowsers-profiles
+```
+
+#### Using [`pipx`](https://github.com/pypa/pipx)
 
 ```bash
 $ pipx install pybrowsers-profiles
 ```
 
-> [pipx Homepage](https://github.com/pypa/pipx)
-
 #### Using `pip` install
 
 ```bash
 # Clone repository
-$ git clone "https://github.com/haaag/pybrowsers"
+$ git clone "https://github.com/mateconpizza/pybrowser"
 $ cd pybrowsers
 
 # Create virtual environment & source
@@ -52,7 +64,7 @@ $ (.venv ) pip install -r requirements.txt
 $ (.venv ) pip install .
 ```
 
-### 🚀 Usage
+### Usage
 
 ```bash
 $ pybrowsers --help
@@ -77,6 +89,33 @@ options:
 
 locations:
     $HOME/.local/share/pybrowsers
+```
+
+### Add Unsupported Browser
+
+You can add a browser creating a `JSON` file in `$XDG_DATA_HOME/pybrowsers/` or
+`~/.local/share/pybrowsers`
+
+#### Example
+
+```json
+// firefox based
+{
+  "name": "LibreWolf",
+  "command": "librewolf",
+  "path": "~/.librewolf/profiles.ini",
+  "engine": "gecko",
+  "enabled": true
+}
+
+// chromium based
+{
+  "name": "Helium",
+  "command": "helium",
+  "path": "~/.config/helium/Local State",
+  "engine": "blink",
+  "enabled": true
+}
 ```
 
 #### Use `no flags` to launch menu
@@ -122,47 +161,6 @@ $ pybrowsers -d firefox
 $ pybrowsers -e firefox
 ```
 
-#### ~~Use flag `-r, --running`~~
-
-~~<p><em>Supported on: 🦊</em></p>~~
-
-~~This flag will show all running browsers and profiles, as long as it has been
-opened with `pybrowsers`.~~
-
-### ➕ Add Browser
-
-You can add a browser creating a `JSON` file in `$XDG_DATA_HOME/pybrowsers/` or
-`~/.local/share/pybrowsers`
-
-#### Example
-
-```json
-{
-  "name": "LibreWolf",
-  "command": "librewolf",
-  "path": "~/.librewolf/profiles.ini",
-  "engine": "gecko",
-  "enabled": true
-}
-```
-
-### 🌐 Browsers
-
-- 🦊 [Firefox](https://www.mozilla.org/firefox/download/thanks/)
-- [LibreWolf](https://librewolf.net/)
-- [Chromium](https://www.chromium.org/getting-involved/download-chromium/)
-- Brave
-- Google Chrome
-
-### 🧰 Dependencies
+### Dependencies
 
 - [PySelector](https://pypi.org/project/pyselector/)
-
-### 🧰 TODO
-
-- [ ] Create `interactive menu` for adding browser data
-- [x] Update screenshots
-- [x] Add `flag` for open URLs
-- [x] Please, use `pathlib.Path`
-- [x] BUG: Issue when the profile name contains spaces
-- [x] Add support for `JSON` files _(prioritize)_
