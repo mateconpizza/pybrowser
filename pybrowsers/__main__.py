@@ -14,6 +14,7 @@ import textwrap
 from configparser import ConfigParser
 from dataclasses import dataclass
 from dataclasses import field
+from importlib.metadata import version
 from json.decoder import JSONDecodeError
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -29,7 +30,7 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-__version__ = 'v0.0.14'
+__version__ = version('pybrowsers-profiles')
 __appname__ = 'pybrowsers'
 
 ROOT = Path(os.environ.get('XDG_DATA_HOME', Path.home() / '.local/share'))
@@ -507,7 +508,7 @@ class BrowserCollection:
             err_msg = 'no browser found'
             raise NoBrowserFoundError(err_msg)
 
-        selected, keycode = menu.prompt(
+        selected, keycode = menu.select(
             items=tuple(browsers),
             prompt=f'{__appname__}> ',
         )
