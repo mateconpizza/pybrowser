@@ -15,7 +15,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
 ]
-dependencies = ["pyselector>=0.0.42"]
+dependencies = ["pyselector>=0.0.43"]
 [project.urls]
 "Homepage" = "https://github.com/mateconpizza/pybrowser"
 "Bug Tracker" = "https://github.com/mateconpizza/pybrowser/issues"
